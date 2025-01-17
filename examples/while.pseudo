@@ -1,0 +1,12 @@
+DECLARE Index : INTEGER
+
+Index <- 1
+
+OUTPUT "START"
+
+WHILE Index
+    OUTPUT Index
+    Index <- Index + 1
+ENDWHILE
+
+OUTPUT "END"

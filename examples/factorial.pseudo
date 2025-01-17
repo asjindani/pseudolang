@@ -1,0 +1,12 @@
+DECLARE Number, Index, Factorial : INTEGER
+
+OUTPUT "Enter an integer:"
+INPUT Number
+
+Factorial <- 1
+
+FOR Index <- 2 TO Number
+    Factorial <- Factorial * Index
+NEXT Index
+
+OUTPUT Factorial

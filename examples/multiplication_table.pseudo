@@ -1,0 +1,8 @@
+DECLARE Number, Index : INTEGER
+
+OUTPUT "Enter an integer: "
+INPUT Number
+
+FOR Index <- 1 TO 10
+    OUTPUT Number, " * ", Index, " = ", Number * Index
+NEXT Index
