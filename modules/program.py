@@ -1,5 +1,7 @@
 import re
 
+from termcolor import cprint
+
 from .data_types import *
 from .opcodes import *
 from .classes import *
@@ -89,7 +91,7 @@ class Program:
             identifier = str(e).split("'")[1]
             self.throw(Error, f"Invalid identifier '{identifier}'", "Name Error")
         except Exception as e:
-            printc("red", f"{e.__class__.__name__}: {e}")
+            cprint(f"{e.__class__.__name__}: {e}", "red")
         
         # if expression in var:
         #     value = var[expression].data
@@ -132,7 +134,7 @@ class Program:
         properties.data = value
 
         if self.dev:
-            printc("blue", f"{identifier} has been assigned value {value}")
+            cprint(f"{identifier} has been assigned value {value}", "blue")
 
     def declare_variables(self, identifiers, data_type):
         if data_type not in DATA_TYPES:
@@ -151,9 +153,9 @@ class Program:
             if len(identifiers) == 0:
                 return
             if len(identifiers) == 1:
-                printc("blue", f"Declared variable '{identifiers[0]}' with type {data_type}")
+                cprint(f"Declared variable '{identifiers[0]}' with type {data_type}", "blue")
             else:
-                printc("blue", f"Declared variables {identifiers.__repr__()[1:-1]} with type {data_type}")
+                cprint(f"Declared variables {identifiers.__repr__()[1:-1]} with type {data_type}", "blue")
 
     def declare_constant(self, identifier, expression):
         value = self.evaluate(expression)
@@ -169,7 +171,7 @@ class Program:
         self.var[identifier] = Constant(identifier, data_type, value)
 
         if self.dev:
-            printc("blue", f"Declared constant '{identifier}' with type {data_type} and value {value}")
+            cprint(f"Declared constant '{identifier}' with type {data_type} and value {value}", "blue")
 
     def declare_method(self, instruction):
         identifier = instruction.identifier
@@ -178,7 +180,7 @@ class Program:
 
         if self.dev:
             for index in range(self.count_lines(instruction)-1):
-                printc("magenta", self.lines[self.line + index])
+                cprint(self.lines[self.line + index], "magenta")
 
         if identifier in self.var:
             self.throw(Error, f"Identifier '{identifier}' is already used", "Name Error")
@@ -193,7 +195,7 @@ class Program:
         self.line += self.count_lines(instruction)-1
         
         if self.dev:
-            printc("blue", f"Procedure '{identifier}' has been created")
+            cprint(f"Procedure '{identifier}' has been created", "blue")
 
     def parse_method(self, string):
         # Name()
@@ -460,7 +462,7 @@ class Program:
             self.line += 1
 
             if self.dev:
-                printc("green", instructions[-1])
+                cprint(instructions[-1], "green")
 
         if len(stack) > 1:
             self.line = stack2.top[0]
@@ -474,13 +476,13 @@ class Program:
 
         if self.dev:
             print()
-            printc("yellow", f"Block {self.block+1}", f"Line {self.line}", sep=" • ")
+            cprint(f"Block {self.block+1} • Line {self.line}", "yellow")
             if len(self.call_stack) > 1:
-                printc("yellow", tuple(i.method.name for i in self.call_stack))
+                cprint(tuple(i.method.name for i in self.call_stack), "yellow")
             if self.lines[self.line-1]:
-                printc("magenta", self.lines[self.line-1])
+                cprint(self.lines[self.line-1], "magenta")
             if instruction:
-                printc("green", instruction)
+                cprint(instruction, "green")
 
         # Blank Line
         if not instruction:
@@ -649,9 +651,9 @@ class Program:
                 self.assign(parameters[index], value)
 
             if self.dev:
-                printc("blue", f"Global: {dict((k,v) for (k,v) in self.global_values().items() if type(v) != PROCEDURE)}")
-                printc("blue", f"Local: {dict((k,v) for (k,v) in self.local_values().items() if type(v) != PROCEDURE)}")
-                printc("blue", f"Scope: {dict((k,v) for (k,v) in self.scope_values().items() if type(v) != PROCEDURE)}")
+                cprint(f"Global: {dict((k,v) for (k,v) in self.global_values().items() if type(v) != PROCEDURE)}", "blue")
+                cprint(f"Local: {dict((k,v) for (k,v) in self.local_values().items() if type(v) != PROCEDURE)}", "blue")
+                cprint(f"Scope: {dict((k,v) for (k,v) in self.scope_values().items() if type(v) != PROCEDURE)}", "blue")
 
             line_old = self.line
             self.line = procedure.line
@@ -669,7 +671,7 @@ class Program:
             self.call_stack.top.exit = True
 
             if self.dev:
-                printc("blue", "Returned to previous scope")
+                cprint("Returned to previous scope", "blue")
 
     def execute_statements(self, statements):
         line_old = self.line
@@ -686,8 +688,8 @@ class Program:
         if self.call_stack:
             print()
             for call in self.call_stack:
-                printc("yellow", f"Line {call.line} calls {call.method.name}")
-                printc("yellow", f"\tProgram Code:\t{self.lines[call.line-1]}")
+                cprint(f"Line {call.line} calls {call.method.name}", "yellow")
+                cprint(f"\tProgram Code:\t{self.lines[call.line-1]}", "yellow")
 
         error_type(*args).throw(self.line, self.lines[self.line-1])
 

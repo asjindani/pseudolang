@@ -21,8 +21,8 @@ If you do not have git on your system, you can download a zip file of the code b
 ```
 working-directory/
   pseudolang/
-    pseudolang/
     examples/
+    modules/
 ```
 
 Create a new `main.pseudo` file in the working directory.
@@ -36,7 +36,7 @@ OUTPUT "Hello world!"
 Then, type the following command:
 
 ```
-python -m pseudolang.pseudolang main.pseudo
+python -m pseudolang main.pseudo
 ```
 
 You should see the output:
@@ -48,7 +48,12 @@ Hello world!
 To execute the code in developer mode:
 
 ```
-python -m pseudolang.pseudolang main.pseudo -dev
+python -m pseudolang main.pseudo -dev
+```
+
+You can also try one of the example codes:
+```
+python -m pseudolang pseudolang/examples/multiplication.pseudo
 ```
 
 # Data Types

@@ -1,8 +1,8 @@
 import sys
 import os.path
-from .program import Program
+from .modules.program import Program
 
-if __name__ == "__main__":
+def run():
     arguments = sys.argv.copy()
 
     DEV = "-dev"
@@ -27,5 +27,5 @@ if __name__ == "__main__":
     else:
         print(f"File '{file_path}' not found")
 
-del os.path
-del sys
+if __name__ == "__main__":
+    run()
