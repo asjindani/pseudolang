@@ -3,11 +3,19 @@ import os.path
 from .program import Program
 
 if __name__ == "__main__":
-    file_path = sys.argv[1]
+    arguments = sys.argv.copy()
 
+    DEV = "-dev"
     dev_flag = False
-    if "-dev" in sys.argv:
+    if DEV in arguments:
         dev_flag = True
+    while DEV in arguments:
+        arguments.remove(DEV)
+
+    if len(arguments) > 1:
+        file_path = arguments[1]
+    else:
+        file_path = input("Enter file path: ")
 
     if os.path.exists(file_path):
         with open(file_path, "r") as file:
@@ -17,7 +25,7 @@ if __name__ == "__main__":
         program.parse()
         program.run()
     else:
-        print("File not found")
+        print(f"File '{file_path}' not found")
 
 del os.path
 del sys
