@@ -25,9 +25,19 @@ working-directory/
     modules/
 ```
 
+Finally, install the requirements using the following command.
+
+You can also use a virtual environment to avoid doing it globally.
+
+```
+pip install -r pseudolang/requirements.txt
+```
+
+We are now ready to create our first PseudoLang program.
+
 Create a new `main.pseudo` file in the working directory.
 
-Type the following code into  the`main.pseudo` file:
+Save the following code into the `main.pseudo` file:
 
 ```
 OUTPUT "Hello world!"
